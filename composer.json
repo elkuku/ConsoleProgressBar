@@ -1,0 +1,34 @@
+{
+    "name": "elkuku/console-table",
+    "description": "A table generator class for the PHP CLI.",
+    "keywords": [ "console" ],
+    "type": "library",
+    "minimum-stability": "dev",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Tal Peer",
+            "homepage": "http://pear.php.net/user/tal"
+        },
+        {
+            "name": "Xavier Noguer",
+            "homepage": "http://pear.php.net/user/xnoguer"
+        },
+        {
+            "name": "Richard Heyes",
+            "homepage": "http://pear.php.net/user/richard"
+        },
+        {
+            "name": "Nikolai Plath",
+            "homepage": "https://github.com/elkuku"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Elkuku": "src/"
+        }
+    }
+}
