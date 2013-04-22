@@ -41,56 +41,56 @@ class ConsoleProgressBar
 	/**
 	 * Skeleton for use with sprintf
 	 */
-	protected $_skeleton;
+	protected $skeleton;
 
 	/**
 	 * The bar gets filled with this
 	 */
-	protected $_bar;
+	protected $bar;
 
 	/**
 	 * The width of the bar
 	 */
-	protected $_blen;
+	protected $barLen;
 
 	/**
 	 * The total width of the display
 	 */
-	protected $_tlen;
+	protected $totalLen;
 
 	/**
 	 * The position of the counter when the job is `done'
 	 */
-	protected $_target_num;
+	protected $targetNum;
 
 	/**
 	 * Options, like the precision used to display the numbers
 	 */
-	protected $_options = array();
+	protected $options = array();
 
 	/**
 	 * Length to erase
 	 */
-	protected $_rlen = 0;
+	protected $rLen = 0;
 
 	/**
 	 * When the progress started
 	 */
-	protected $_start_time = null;
+	protected $startTime = null;
 
-	protected $_rate_datapoints = array();
+	protected $rateDataPoints = array();
 
 	/**
 	 * Time when the bar was last drawn
 	 */
-	protected $_last_update_time = 0.0;
+	protected $lastUpdateTime = 0.0;
 
 	/**
 	 * Indicates the first run status.
 	 *
 	 * @var boolean
 	 */
-	protected $_first;
+	protected $firstRun;
 
 	/**
 	 * Constructor, sets format and size
@@ -198,11 +198,11 @@ class ConsoleProgressBar
 		if ($target_num == 0)
 		{
 			trigger_error("PEAR::Console_ProgressBar: Using a target number equal to 0 is invalid, setting to 1 instead");
-			$this->_target_num = 1;
+			$this->targetNum = 1;
 		}
 		else
 		{
-			$this->_target_num = $target_num;
+			$this->targetNum = $target_num;
 		}
 
 		$default_options = array(
@@ -232,7 +232,7 @@ class ConsoleProgressBar
 			}
 		}
 
-		$this->_options = $options = $intopts;
+		$this->options = $options = $intopts;
 
 		// Placeholder
 		$cur    = '%2$\'' . $options['fraction_pad']{0} . strlen((int) $target_num) . '.'
@@ -266,9 +266,9 @@ class ConsoleProgressBar
 			'%estimate%' => '%6$s',
 		);
 
-		$this->_skeleton = strtr($formatstring, $transitions);
+		$this->skeleton = strtr($formatstring, $transitions);
 
-		$slen = strlen(sprintf($this->_skeleton, '', 0, 0, 0, '00:00:00', '00:00:00'));
+		$slen = strlen(sprintf($this->skeleton, '', 0, 0, 0, '00:00:00', '00:00:00'));
 
 		if ($options['width_absolute'])
 		{
@@ -284,10 +284,10 @@ class ConsoleProgressBar
 		$lbar = str_pad($bar, $blen, $bar{0}, STR_PAD_LEFT);
 		$rbar = str_pad($prefill, $blen, substr($prefill, -1, 1));
 
-		$this->_bar   = substr($lbar, -$blen) . substr($rbar, 0, $blen);
-		$this->_blen  = $blen;
-		$this->_tlen  = $tlen;
-		$this->_first = true;
+		$this->bar   = substr($lbar, -$blen) . substr($rbar, 0, $blen);
+		$this->barLen  = $blen;
+		$this->totalLen  = $tlen;
+		$this->firstRun = true;
 
 		return true;
 	}
@@ -304,29 +304,29 @@ class ConsoleProgressBar
 		$time = $this->_fetchTime();
 		$this->_addDatapoint($current, $time);
 
-		if ($this->_first)
+		if ($this->firstRun)
 		{
-			if ($this->_options['ansi_terminal'])
+			if ($this->options['ansi_terminal'])
 			{
 				// Save cursor position
 				echo "\x1b[s";
 			}
 
-			$this->_first      = false;
-			$this->_start_time = $this->_fetchTime();
+			$this->firstRun      = false;
+			$this->startTime = $this->_fetchTime();
 			$this->display($current);
 
 			return;
 		}
 
-		if ($time - $this->_last_update_time < $this->_options['min_draw_interval'] and $current != $this->_target_num)
+		if ($time - $this->lastUpdateTime < $this->options['min_draw_interval'] and $current != $this->targetNum)
 		{
 			return;
 		}
 
 		$this->erase();
 		$this->display($current);
-		$this->_last_update_time = $time;
+		$this->lastUpdateTime = $time;
 	}
 
 	/**
@@ -340,26 +340,26 @@ class ConsoleProgressBar
 	 */
 	public function display($current)
 	{
-		$percent  = $current / $this->_target_num;
-		$filled   = round($percent * $this->_blen);
-		$visbar   = substr($this->_bar, $this->_blen - $filled, $this->_blen);
-		$elapsed  = $this->_formatSeconds($this->_fetchTime() - $this->_start_time);
+		$percent  = $current / $this->targetNum;
+		$filled   = round($percent * $this->barLen);
+		$visbar   = substr($this->bar, $this->barLen - $filled, $this->barLen);
+		$elapsed  = $this->_formatSeconds($this->_fetchTime() - $this->startTime);
 		$estimate = $this->_formatSeconds($this->_generateEstimate());
 
-		$this->_rlen = printf(
-			$this->_skeleton, $visbar, $current, $this->_target_num, $percent * 100, $elapsed, $estimate
+		$this->rLen = printf(
+			$this->skeleton, $visbar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate
 		);
 
 		// Fix for php-versions where printf doesn't return anything
-		if (is_null($this->_rlen))
+		if (is_null($this->rLen))
 		{
 			// Fix for php versions between 4.3.7 and 5.x.y(?)
-			$this->_rlen = $this->_tlen;
+			$this->rLen = $this->totalLen;
 		}
-		elseif ($this->_rlen < $this->_tlen)
+		elseif ($this->rLen < $this->totalLen)
 		{
-			echo str_repeat(' ', $this->_tlen - $this->_rlen);
-			$this->_rlen = $this->_tlen;
+			echo str_repeat(' ', $this->totalLen - $this->rLen);
+			$this->rLen = $this->totalLen;
 		}
 
 		return true;
@@ -374,9 +374,9 @@ class ConsoleProgressBar
 	 */
 	public function erase($clear = false)
 	{
-		if ($this->_options['ansi_terminal'] and !$clear)
+		if ($this->options['ansi_terminal'] and !$clear)
 		{
-			if ($this->_options['ansi_clear'])
+			if ($this->options['ansi_clear'])
 			{
 				// Restore cursor position
 				echo "\x1b[2K\x1b[u";
@@ -389,13 +389,13 @@ class ConsoleProgressBar
 		}
 		elseif (!$clear)
 		{
-			echo str_repeat(chr(0x08), $this->_rlen);
+			echo str_repeat(chr(0x08), $this->rLen);
 		}
 		else
 		{
-			echo str_repeat(chr(0x08), $this->_rlen),
-			str_repeat(chr(0x20), $this->_rlen),
-			str_repeat(chr(0x08), $this->_rlen);
+			echo str_repeat(chr(0x08), $this->rLen),
+			str_repeat(chr(0x20), $this->rLen),
+			str_repeat(chr(0x08), $this->rLen);
 		}
 	}
 
@@ -467,12 +467,12 @@ class ConsoleProgressBar
 	 */
 	protected function _addDatapoint($val, $time)
 	{
-		if (count($this->_rate_datapoints) == $this->_options['num_datapoints'])
+		if (count($this->rateDataPoints) == $this->options['num_datapoints'])
 		{
-			array_shift($this->_rate_datapoints);
+			array_shift($this->rateDataPoints);
 		}
 
-		$this->_rate_datapoints[] = array(
+		$this->rateDataPoints[] = array(
 			'time'  => $time,
 			'value' => $val,
 		);
@@ -487,14 +487,14 @@ class ConsoleProgressBar
 	 */
 	protected function _generateEstimate()
 	{
-		if (count($this->_rate_datapoints) < 2)
+		if (count($this->rateDataPoints) < 2)
 		{
 			return 0.0;
 		}
 
-		$first = $this->_rate_datapoints[0];
-		$last  = end($this->_rate_datapoints);
+		$first = $this->rateDataPoints[0];
+		$last  = end($this->rateDataPoints);
 
-		return ($this->_target_num - $last['value']) / ($last['value'] - $first['value']) * ($last['time'] - $first['time']);
+		return ($this->targetNum - $last['value']) / ($last['value'] - $first['value']) * ($last['time'] - $first['time']);
 	}
 }
