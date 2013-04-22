@@ -1,39 +1,40 @@
 <?php
-/* vim: set expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
-
-// Copyright (c) 2007 Stefan Walk
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to
-// deal in the Software without restriction, including without limitation the
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-// sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
-
-
-// Authors: Stefan Walk <et@php.net>
+/**
+ * @copyright  (c) 2007 Stefan Walk
+ * @license    MIT License
+ * @author:    Stefan Walk <et@php.net>
+ *
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+*/
 
 namespace Elkuku\Console\Helper;
 
 /**
  * Class to display a progressbar in the console
  *
- * @package  Console_ProgressBar
- * @category Console
- * @version  0.5.2
- * @author   Stefan Walk <et@php.net>
- * @license  MIT License
+ * @version   0.5.2
+ * @category  Console
+ * @package   Console_ProgressBar
+ * @author    Stefan Walk <et@php.net>
+ * @license   MIT License
+ * @since     ¿
  */
 class ConsoleProgressBar
 {
@@ -41,36 +42,44 @@ class ConsoleProgressBar
 	 * Skeleton for use with sprintf
 	 */
 	protected $_skeleton;
+
 	/**
 	 * The bar gets filled with this
 	 */
 	protected $_bar;
+
 	/**
 	 * The width of the bar
 	 */
 	protected $_blen;
+
 	/**
 	 * The total width of the display
 	 */
 	protected $_tlen;
+
 	/**
 	 * The position of the counter when the job is `done'
 	 */
 	protected $_target_num;
+
 	/**
 	 * Options, like the precision used to display the numbers
 	 */
 	protected $_options = array();
+
 	/**
 	 * Length to erase
 	 */
 	protected $_rlen = 0;
+
 	/**
 	 * When the progress started
 	 */
 	protected $_start_time = null;
 
 	protected $_rate_datapoints = array();
+
 	/**
 	 * Time when the bar was last drawn
 	 */
@@ -81,17 +90,16 @@ class ConsoleProgressBar
 	 *
 	 * See the reset() method for documentation.
 	 *
-	 * @param string   $formatString  The format string
-	 * @param string   $bar           The string filling the progress bar
-	 * @param string   $prefill       The string filling empty space in the bar
-	 * @param integer  $width         The width of the display
-	 * @param float    $target_num    The target number for the bar
-	 * @param array    $options       Options for the progress bar
+	 * @param   string   $formatString  The format string
+	 * @param   string   $bar           The string filling the progress bar
+	 * @param   string   $prefill       The string filling empty space in the bar
+	 * @param   integer  $width         The width of the display
+	 * @param   float    $target_num    The target number for the bar
+	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @see reset
 	 */
-	public function __construct($formatString, $bar, $prefill, $width,
-	                     $target_num, $options = array())
+	public function __construct($formatString, $bar, $prefill, $width, $target_num, $options = array())
 	{
 		$this->reset($formatString, $bar, $prefill, $width, $target_num, $options);
 	}
@@ -169,17 +177,16 @@ class ConsoleProgressBar
 	 *                        |       |  don't update.
 	 * </pre>
 	 *
-	 * @param string The format string
-	 * @param string The string filling the progress bar
-	 * @param string The string filling empty space in the bar
-	 * @param int    The width of the display
-	 * @param float  The target number for the bar
-	 * @param array  Options for the progress bar
+	 * @param   string   $formatstring  The format string
+	 * @param   string   $bar           The string filling the progress bar
+	 * @param   string   $prefill       The string filling empty space in the bar
+	 * @param   integer  $width         The width of the display
+	 * @param   float    $target_num    The target number for the bar
+	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @return bool
 	 */
-	public function reset($formatstring, $bar, $prefill, $width, $target_num,
-	               $options = array())
+	public function reset($formatstring, $bar, $prefill, $width, $target_num, $options = array())
 	{
 		if ($target_num == 0)
 		{
@@ -190,6 +197,7 @@ class ConsoleProgressBar
 		{
 			$this->_target_num = $target_num;
 		}
+
 		$default_options = array(
 			'percent_precision'  => 2,
 			'fraction_precision' => 0,
@@ -201,7 +209,9 @@ class ConsoleProgressBar
 			'num_datapoints'     => 5,
 			'min_draw_interval'  => 0.0,
 		);
-		$intopts         = array();
+
+		$intopts = array();
+
 		foreach ($default_options as $key => $value)
 		{
 			if (!isset($options[$key]))
@@ -214,14 +224,18 @@ class ConsoleProgressBar
 				$intopts[$key] = $options[$key];
 			}
 		}
+
 		$this->_options = $options = $intopts;
-		// placeholder
+
+		// Placeholder
 		$cur    = '%2$\'' . $options['fraction_pad']{0} . strlen((int) $target_num) . '.'
 			. $options['fraction_precision'] . 'f';
 		$max    = $cur;
 		$max{1} = 3;
-		// pre php-4.3.7 %3.2f meant 3 characters before . and two after
+
+		// Pre php-4.3.7 %3.2f meant 3 characters before . and two after
 		// php-4.3.7 and later it means 3 characters for the whole number
+
 		if (version_compare(PHP_VERSION, '4.3.7', 'ge'))
 		{
 			$padding = 4 + $options['percent_precision'];
@@ -230,6 +244,7 @@ class ConsoleProgressBar
 		{
 			$padding = 3;
 		}
+
 		$perc = '%4$\'' . $options['percent_pad']{0} . $padding . '.'
 			. $options['percent_precision'] . 'f';
 
@@ -267,17 +282,13 @@ class ConsoleProgressBar
 		$this->_tlen  = $tlen;
 		$this->_first = true;
 
-
 		return true;
 	}
 
-	// }}}
-
-	// {{{ update($current)
 	/**
 	 * Updates the bar with new progress information
 	 *
-	 * @param int current position of the progress counter
+	 * @param   integer  $current  current position of the progress counter
 	 *
 	 * @return bool
 	 */
@@ -285,59 +296,58 @@ class ConsoleProgressBar
 	{
 		$time = $this->_fetchTime();
 		$this->_addDatapoint($current, $time);
+
 		if ($this->_first)
 		{
 			if ($this->_options['ansi_terminal'])
 			{
-				echo "\x1b[s"; // save cursor position
+				// Save cursor position
+				echo "\x1b[s";
 			}
+
 			$this->_first      = false;
 			$this->_start_time = $this->_fetchTime();
 			$this->display($current);
 
 			return;
 		}
-		if ($time - $this->_last_update_time <
-			$this->_options['min_draw_interval'] and $current != $this->_target_num
-		)
+
+		if ($time - $this->_last_update_time < $this->_options['min_draw_interval'] and $current != $this->_target_num)
 		{
 			return;
 		}
+
 		$this->erase();
 		$this->display($current);
 		$this->_last_update_time = $time;
 	}
 
-	// }}}
-
-	// {{{ display($current)
 	/**
 	 * Prints the bar. Usually, you don't need this method, just use update()
 	 * which handles erasing the previously printed bar also. If you use a
 	 * custom function (for whatever reason) to erase the bar, use this method.
 	 *
-	 * @param int current position of the progress counter
+	 * @param   integer  $current  current position of the progress counter
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function display($current)
 	{
-		$percent     = $current / $this->_target_num;
-		$filled      = round($percent * $this->_blen);
-		$visbar      = substr($this->_bar, $this->_blen - $filled, $this->_blen);
-		$elapsed     = $this->_formatSeconds(
-			$this->_fetchTime() - $this->_start_time
+		$percent  = $current / $this->_target_num;
+		$filled   = round($percent * $this->_blen);
+		$visbar   = substr($this->_bar, $this->_blen - $filled, $this->_blen);
+		$elapsed  = $this->_formatSeconds($this->_fetchTime() - $this->_start_time);
+		$estimate = $this->_formatSeconds($this->_generateEstimate());
+
+		$this->_rlen = printf(
+			$this->_skeleton, $visbar, $current, $this->_target_num, $percent * 100, $elapsed, $estimate
 		);
-		$estimate    = $this->_formatSeconds($this->_generateEstimate());
-		$this->_rlen = printf($this->_skeleton,
-			$visbar, $current, $this->_target_num, $percent * 100, $elapsed,
-			$estimate
-		);
-		// fix for php-versions where printf doesn't return anything
+
+		// Fix for php-versions where printf doesn't return anything
 		if (is_null($this->_rlen))
 		{
+			// Fix for php versions between 4.3.7 and 5.x.y(?)
 			$this->_rlen = $this->_tlen;
-			// fix for php versions between 4.3.7 and 5.x.y(?)
 		}
 		elseif ($this->_rlen < $this->_tlen)
 		{
@@ -348,16 +358,12 @@ class ConsoleProgressBar
 		return true;
 	}
 
-	// }}}
-
-	// {{{ erase($clear = false)
 	/**
 	 * Erases a previously printed bar.
 	 *
-	 * @param bool if the bar should be cleared in addition to resetting the
-	 *             cursor position
+	 * @param   boolean  $clear  if the bar should be cleared in addition to resetting the cursor position.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function erase($clear = false)
 	{
@@ -365,11 +371,13 @@ class ConsoleProgressBar
 		{
 			if ($this->_options['ansi_clear'])
 			{
-				echo "\x1b[2K\x1b[u"; // restore cursor position
+				// Restore cursor position
+				echo "\x1b[2K\x1b[u";
 			}
 			else
 			{
-				echo "\x1b[u"; // restore cursor position
+				// Restore cursor position
+				echo "\x1b[u";
 			}
 		}
 		elseif (!$clear)
@@ -384,13 +392,10 @@ class ConsoleProgressBar
 		}
 	}
 
-	// }}}
-
-	// {{{ format_seconds()
 	/**
-	 * Returns a string containing the formatted number of seconds
+	 * Returns a string containing the formatted number of seconds.
 	 *
-	 * @param float The number of seconds
+	 * @param   float  $seconds  The number of seconds.
 	 *
 	 * @return string
 	 */
@@ -399,6 +404,7 @@ class ConsoleProgressBar
 		$hou = floor($seconds / 3600);
 		$min = floor(($seconds - $hou * 3600) / 60);
 		$sec = $seconds - $hou * 3600 - $min * 60;
+
 		if ($hou == 0)
 		{
 			if (version_compare(PHP_VERSION, '4.3.7', 'ge'))
@@ -422,14 +428,20 @@ class ConsoleProgressBar
 		return sprintf($format, $hou, $min, $sec);
 	}
 
-	// }}}
-
+	/**
+	 * Fetch the time.
+	 *
+	 * @todo compat
+	 *
+	 * @return int|mixed|number
+	 */
 	protected function _fetchTime()
 	{
 		if (!function_exists('microtime'))
 		{
 			return time();
 		}
+
 		if (version_compare(PHP_VERSION, '5.0.0', 'ge'))
 		{
 			return microtime(true);
@@ -438,30 +450,44 @@ class ConsoleProgressBar
 		return array_sum(explode(' ', microtime()));
 	}
 
+	/**
+	 * Add a date point.
+	 *
+	 * @param   integer  $val   Pointer position.
+	 * @param   string   $time  The time string.
+	 *
+	 * @return $this
+	 */
 	protected function _addDatapoint($val, $time)
 	{
-		if (count($this->_rate_datapoints)
-			== $this->_options['num_datapoints']
-		)
+		if (count($this->_rate_datapoints) == $this->_options['num_datapoints'])
 		{
 			array_shift($this->_rate_datapoints);
 		}
+
 		$this->_rate_datapoints[] = array(
 			'time'  => $time,
 			'value' => $val,
 		);
+
+		return $this;
 	}
 
+	/**
+	 * Generate the estimated time.
+	 *
+	 * @return float
+	 */
 	protected function _generateEstimate()
 	{
 		if (count($this->_rate_datapoints) < 2)
 		{
 			return 0.0;
 		}
+
 		$first = $this->_rate_datapoints[0];
 		$last  = end($this->_rate_datapoints);
 
 		return ($this->_target_num - $last['value']) / ($last['value'] - $first['value']) * ($last['time'] - $first['time']);
 	}
 }
-
