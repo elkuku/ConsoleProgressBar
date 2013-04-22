@@ -301,8 +301,8 @@ class ConsoleProgressBar
 	 */
 	public function update($current)
 	{
-		$time = $this->_fetchTime();
-		$this->_addDatapoint($current, $time);
+		$time = $this->fetchTime();
+		$this->addDataPoint($current, $time);
 
 		if ($this->firstRun)
 		{
@@ -313,7 +313,7 @@ class ConsoleProgressBar
 			}
 
 			$this->firstRun      = false;
-			$this->startTime = $this->_fetchTime();
+			$this->startTime = $this->fetchTime();
 			$this->display($current);
 
 			return;
@@ -343,8 +343,8 @@ class ConsoleProgressBar
 		$percent  = $current / $this->targetNum;
 		$filled   = round($percent * $this->barLen);
 		$visbar   = substr($this->bar, $this->barLen - $filled, $this->barLen);
-		$elapsed  = $this->_formatSeconds($this->_fetchTime() - $this->startTime);
-		$estimate = $this->_formatSeconds($this->_generateEstimate());
+		$elapsed  = $this->formatSeconds($this->fetchTime() - $this->startTime);
+		$estimate = $this->formatSeconds($this->generateEstimate());
 
 		$this->rLen = printf(
 			$this->skeleton, $visbar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate
@@ -406,7 +406,7 @@ class ConsoleProgressBar
 	 *
 	 * @return string
 	 */
-	protected function _formatSeconds($seconds)
+	protected function formatSeconds($seconds)
 	{
 		$hou = floor($seconds / 3600);
 		$min = floor(($seconds - $hou * 3600) / 60);
@@ -442,7 +442,7 @@ class ConsoleProgressBar
 	 *
 	 * @return int|mixed|number
 	 */
-	protected function _fetchTime()
+	protected function fetchTime()
 	{
 		if (!function_exists('microtime'))
 		{
@@ -465,7 +465,7 @@ class ConsoleProgressBar
 	 *
 	 * @return $this
 	 */
-	protected function _addDatapoint($val, $time)
+	protected function addDataPoint($val, $time)
 	{
 		if (count($this->rateDataPoints) == $this->options['num_datapoints'])
 		{
@@ -485,7 +485,7 @@ class ConsoleProgressBar
 	 *
 	 * @return float
 	 */
-	protected function _generateEstimate()
+	protected function generateEstimate()
 	{
 		if (count($this->rateDataPoints) < 2)
 		{
