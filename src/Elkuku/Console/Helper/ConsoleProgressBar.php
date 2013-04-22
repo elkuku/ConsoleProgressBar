@@ -40,41 +40,41 @@ class ConsoleProgressBar
 	/**
 	 * Skeleton for use with sprintf
 	 */
-	var $_skeleton;
+	protected $_skeleton;
 	/**
 	 * The bar gets filled with this
 	 */
-	var $_bar;
+	protected $_bar;
 	/**
 	 * The width of the bar
 	 */
-	var $_blen;
+	protected $_blen;
 	/**
 	 * The total width of the display
 	 */
-	var $_tlen;
+	protected $_tlen;
 	/**
 	 * The position of the counter when the job is `done'
 	 */
-	var $_target_num;
+	protected $_target_num;
 	/**
 	 * Options, like the precision used to display the numbers
 	 */
-	var $_options = array();
+	protected $_options = array();
 	/**
 	 * Length to erase
 	 */
-	var $_rlen = 0;
+	protected $_rlen = 0;
 	/**
 	 * When the progress started
 	 */
-	var $_start_time = null;
+	protected $_start_time = null;
 
-	var $_rate_datapoints = array();
+	protected $_rate_datapoints = array();
 	/**
 	 * Time when the bar was last drawn
 	 */
-	var $_last_update_time = 0.0;
+	protected $_last_update_time = 0.0;
 
 	/**
 	 * Constructor, sets format and size
@@ -90,7 +90,7 @@ class ConsoleProgressBar
 	 *
 	 * @see reset
 	 */
-	function __construct($formatString, $bar, $prefill, $width,
+	public function __construct($formatString, $bar, $prefill, $width,
 	                     $target_num, $options = array())
 	{
 		$this->reset($formatString, $bar, $prefill, $width, $target_num, $options);
@@ -178,7 +178,7 @@ class ConsoleProgressBar
 	 *
 	 * @return bool
 	 */
-	function reset($formatstring, $bar, $prefill, $width, $target_num,
+	public function reset($formatstring, $bar, $prefill, $width, $target_num,
 	               $options = array())
 	{
 		if ($target_num == 0)
@@ -281,7 +281,7 @@ class ConsoleProgressBar
 	 *
 	 * @return bool
 	 */
-	function update($current)
+	public function update($current)
 	{
 		$time = $this->_fetchTime();
 		$this->_addDatapoint($current, $time);
@@ -320,7 +320,7 @@ class ConsoleProgressBar
 	 *
 	 * @return bool
 	 */
-	function display($current)
+	public function display($current)
 	{
 		$percent     = $current / $this->_target_num;
 		$filled      = round($percent * $this->_blen);
@@ -359,7 +359,7 @@ class ConsoleProgressBar
 	 *
 	 * @return bool
 	 */
-	function erase($clear = false)
+	public function erase($clear = false)
 	{
 		if ($this->_options['ansi_terminal'] and !$clear)
 		{
@@ -394,7 +394,7 @@ class ConsoleProgressBar
 	 *
 	 * @return string
 	 */
-	function _formatSeconds($seconds)
+	protected function _formatSeconds($seconds)
 	{
 		$hou = floor($seconds / 3600);
 		$min = floor(($seconds - $hou * 3600) / 60);
@@ -424,7 +424,7 @@ class ConsoleProgressBar
 
 	// }}}
 
-	function _fetchTime()
+	protected function _fetchTime()
 	{
 		if (!function_exists('microtime'))
 		{
@@ -438,7 +438,7 @@ class ConsoleProgressBar
 		return array_sum(explode(' ', microtime()));
 	}
 
-	function _addDatapoint($val, $time)
+	protected function _addDatapoint($val, $time)
 	{
 		if (count($this->_rate_datapoints)
 			== $this->_options['num_datapoints']
@@ -452,7 +452,7 @@ class ConsoleProgressBar
 		);
 	}
 
-	function _generateEstimate()
+	protected function _generateEstimate()
 	{
 		if (count($this->_rate_datapoints) < 2)
 		{
