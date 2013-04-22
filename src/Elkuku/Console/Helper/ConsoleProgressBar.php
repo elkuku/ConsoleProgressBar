@@ -99,16 +99,16 @@ class ConsoleProgressBar
 	 *
 	 * @param   string   $formatString  The format string
 	 * @param   string   $bar           The string filling the progress bar
-	 * @param   string   $prefill       The string filling empty space in the bar
+	 * @param   string   $preFill       The string filling empty space in the bar
 	 * @param   integer  $width         The width of the display
-	 * @param   float    $target_num    The target number for the bar
+	 * @param   float    $targetNum    The target number for the bar
 	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @see reset
 	 */
-	public function __construct($formatString, $bar, $prefill, $width, $target_num, $options = array())
+	public function __construct($formatString, $bar, $preFill, $width, $targetNum, $options = array())
 	{
-		$this->reset($formatString, $bar, $prefill, $width, $target_num, $options);
+		$this->reset($formatString, $bar, $preFill, $width, $targetNum, $options);
 	}
 
 	/**
@@ -184,25 +184,25 @@ class ConsoleProgressBar
 	 *                        |       |  don't update.
 	 * </pre>
 	 *
-	 * @param   string   $formatstring  The format string
+	 * @param   string   $formatString  The format string
 	 * @param   string   $bar           The string filling the progress bar
-	 * @param   string   $prefill       The string filling empty space in the bar
+	 * @param   string   $preFill       The string filling empty space in the bar
 	 * @param   integer  $width         The width of the display
-	 * @param   float    $target_num    The target number for the bar
+	 * @param   float    $targetNum    The target number for the bar
 	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @return bool
 	 */
-	public function reset($formatstring, $bar, $prefill, $width, $target_num, $options = array())
+	public function reset($formatString, $bar, $preFill, $width, $targetNum, $options = array())
 	{
-		if ($target_num == 0)
+		if ($targetNum == 0)
 		{
 			trigger_error("PEAR::Console_ProgressBar: Using a target number equal to 0 is invalid, setting to 1 instead");
 			$this->targetNum = 1;
 		}
 		else
 		{
-			$this->targetNum = $target_num;
+			$this->targetNum = $targetNum;
 		}
 
 		$default_options = array(
@@ -217,25 +217,25 @@ class ConsoleProgressBar
 			'min_draw_interval'  => 0.0,
 		);
 
-		$intopts = array();
+		$intOpts = array();
 
 		foreach ($default_options as $key => $value)
 		{
 			if (!isset($options[$key]))
 			{
-				$intopts[$key] = $value;
+				$intOpts[$key] = $value;
 			}
 			else
 			{
 				settype($options[$key], gettype($value));
-				$intopts[$key] = $options[$key];
+				$intOpts[$key] = $options[$key];
 			}
 		}
 
-		$this->options = $options = $intopts;
+		$this->options = $options = $intOpts;
 
 		// Placeholder
-		$cur    = '%2$\'' . $options['fraction_pad']{0} . strlen((int) $target_num) . '.'
+		$cur    = '%2$\'' . $options['fraction_pad']{0} . strlen((int) $targetNum) . '.'
 			. $options['fraction_precision'] . 'f';
 		$max    = $cur;
 		$max{1} = 3;
@@ -266,27 +266,27 @@ class ConsoleProgressBar
 			'%estimate%' => '%6$s',
 		);
 
-		$this->skeleton = strtr($formatstring, $transitions);
+		$this->skeleton = strtr($formatString, $transitions);
 
-		$slen = strlen(sprintf($this->skeleton, '', 0, 0, 0, '00:00:00', '00:00:00'));
+		$sLen = strlen(sprintf($this->skeleton, '', 0, 0, 0, '00:00:00', '00:00:00'));
 
 		if ($options['width_absolute'])
 		{
-			$blen = $width - $slen;
-			$tlen = $width;
+			$bLen = $width - $sLen;
+			$tLen = $width;
 		}
 		else
 		{
-			$tlen = $width + $slen;
-			$blen = $width;
+			$tLen = $width + $sLen;
+			$bLen = $width;
 		}
 
-		$lbar = str_pad($bar, $blen, $bar{0}, STR_PAD_LEFT);
-		$rbar = str_pad($prefill, $blen, substr($prefill, -1, 1));
+		$lBar = str_pad($bar, $bLen, $bar{0}, STR_PAD_LEFT);
+		$rBar = str_pad($preFill, $bLen, substr($preFill, -1, 1));
 
-		$this->bar   = substr($lbar, -$blen) . substr($rbar, 0, $blen);
-		$this->barLen  = $blen;
-		$this->totalLen  = $tlen;
+		$this->bar   = substr($lBar, -$bLen) . substr($rBar, 0, $bLen);
+		$this->barLen  = $bLen;
+		$this->totalLen  = $tLen;
 		$this->firstRun = true;
 
 		return true;
@@ -342,12 +342,12 @@ class ConsoleProgressBar
 	{
 		$percent  = $current / $this->targetNum;
 		$filled   = round($percent * $this->barLen);
-		$visbar   = substr($this->bar, $this->barLen - $filled, $this->barLen);
+		$visBar   = substr($this->bar, $this->barLen - $filled, $this->barLen);
 		$elapsed  = $this->formatSeconds($this->fetchTime() - $this->startTime);
 		$estimate = $this->formatSeconds($this->generateEstimate());
 
 		$this->rLen = printf(
-			$this->skeleton, $visbar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate
+			$this->skeleton, $visBar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate
 		);
 
 		// Fix for php-versions where printf doesn't return anything
