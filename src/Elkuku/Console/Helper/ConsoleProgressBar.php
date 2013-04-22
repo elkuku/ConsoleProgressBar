@@ -3,6 +3,7 @@
  * @copyright  (c) 2007 Stefan Walk
  * @license    MIT License
  * @author:    Stefan Walk <et@php.net>
+ * @author     Nikolai Plath <https://github.com/elkuku>
  *
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,7 +102,7 @@ class ConsoleProgressBar
 	 * @param   string   $bar           The string filling the progress bar
 	 * @param   string   $preFill       The string filling empty space in the bar
 	 * @param   integer  $width         The width of the display
-	 * @param   float    $targetNum    The target number for the bar
+	 * @param   float    $targetNum     The target number for the bar
 	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @see reset
@@ -188,7 +189,7 @@ class ConsoleProgressBar
 	 * @param   string   $bar           The string filling the progress bar
 	 * @param   string   $preFill       The string filling empty space in the bar
 	 * @param   integer  $width         The width of the display
-	 * @param   float    $targetNum    The target number for the bar
+	 * @param   float    $targetNum     The target number for the bar
 	 * @param   array    $options       Options for the progress bar
 	 *
 	 * @return bool
