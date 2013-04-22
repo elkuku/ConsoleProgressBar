@@ -1,6 +1,6 @@
 {
-    "name": "elkuku/console-table",
-    "description": "A table generator class for the PHP CLI.",
+    "name": "elkuku/console-progressbar",
+    "description": "This class provides you with an easy-to-use interface to progress bars.",
     "keywords": [ "console" ],
     "type": "library",
     "minimum-stability": "dev",
