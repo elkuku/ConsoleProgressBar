@@ -4,19 +4,11 @@
     "keywords": [ "console" ],
     "type": "library",
     "minimum-stability": "dev",
-    "license": "BSD",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Tal Peer",
-            "homepage": "http://pear.php.net/user/tal"
-        },
-        {
-            "name": "Xavier Noguer",
-            "homepage": "http://pear.php.net/user/xnoguer"
-        },
-        {
-            "name": "Richard Heyes",
-            "homepage": "http://pear.php.net/user/richard"
+            "name": "Stefan Walk",
+            "email": "et@php.net"
         },
         {
             "name": "Nikolai Plath",
