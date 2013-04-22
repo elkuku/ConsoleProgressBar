@@ -86,6 +86,13 @@ class ConsoleProgressBar
 	protected $_last_update_time = 0.0;
 
 	/**
+	 * Indicates the first run status.
+	 *
+	 * @var boolean
+	 */
+	protected $_first;
+
+	/**
 	 * Constructor, sets format and size
 	 *
 	 * See the reset() method for documentation.
@@ -115,7 +122,7 @@ class ConsoleProgressBar
 	 *   percent, and so on. Current placeholders are:
 	 *     %bar%         The progress bar
 	 *     %current%     The current value
-	 *     %max%         The maximum malue (the "target" value)
+	 *     %max%         The maximum value (the "target" value)
 	 *     %fraction%    The same as %current%/%max%
 	 *     %percent%     The status in percent
 	 *     %elapsed%     The elapsed time
@@ -169,7 +176,7 @@ class ConsoleProgressBar
 	 *                        |       |  used. CAUTION - this is known to cause
 	 *                        |       |  problems with some terminal emulators,
 	 *                        |       |  for example Eterm.
-	 *     ansi_clear         | false |  If the bar should be cleared everytime
+	 *     ansi_clear         | false |  If the bar should be cleared every time
 	 *     num_datapoints     | 5     |  How many datapoints to use to create
 	 *                        |       |  the estimated remaining time
 	 *     min_draw_interval  | 0.0   |  If the last call to update() was less
