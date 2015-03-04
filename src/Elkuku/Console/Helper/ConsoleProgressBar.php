@@ -128,6 +128,7 @@ class ConsoleProgressBar
 	 *     %percent%     The status in percent
 	 *     %elapsed%     The elapsed time
 	 *     %estimate%    An estimate of how long the progress will take
+	 *     %memory%      Amount of memory the script is currently using
 	 *   More placeholders will follow. A format string like:
 	 *   "* stuff.tar %fraction% KB [%bar%] %percent%"
 	 *   will lead to a bar looking like this:
@@ -265,11 +266,12 @@ class ConsoleProgressBar
 			'%bar%'      => '%1$s',
 			'%elapsed%'  => '%5$s',
 			'%estimate%' => '%6$s',
+			'%memory%'   => '%7$s'
 		);
 
 		$this->skeleton = strtr($formatString, $transitions);
 
-		$sLen = strlen(sprintf($this->skeleton, '', 0, 0, 0, '00:00:00', '00:00:00'));
+		$sLen = strlen(sprintf($this->skeleton, '', 0, 0, 0, '00:00:00', '00:00:00', ''));
 
 		if ($options['width_absolute'])
 		{
@@ -346,9 +348,10 @@ class ConsoleProgressBar
 		$visBar   = substr($this->bar, $this->barLen - $filled, $this->barLen);
 		$elapsed  = $this->formatSeconds($this->fetchTime() - $this->startTime);
 		$estimate = $this->formatSeconds($this->generateEstimate());
+		$memory   = round(memory_get_usage(true) / 1024) . 'kB';
 
 		$this->rLen = printf(
-			$this->skeleton, $visBar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate
+			$this->skeleton, $visBar, $current, $this->targetNum, $percent * 100, $elapsed, $estimate, $memory
 		);
 
 		// Fix for php-versions where printf doesn't return anything
