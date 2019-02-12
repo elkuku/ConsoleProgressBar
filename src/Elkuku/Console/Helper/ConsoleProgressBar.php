@@ -496,6 +496,11 @@ class ConsoleProgressBar
 		$first = $this->rateDataPoints[0];
 		$last  = end($this->rateDataPoints);
 
+		if (($last['value'] - $first['value']) * ($last['time'] - $first['time']) == 0) 
+		{
+			return 0.0;
+		}
+
 		return ($this->targetNum - $last['value']) / ($last['value'] - $first['value']) * ($last['time'] - $first['time']);
 	}
 }
