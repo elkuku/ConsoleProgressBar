@@ -1,5 +1,6 @@
+#!/usr/bin/env php
 <?php
-include '../../../../../vendor/autoload.php';
+include '../vendor/autoload.php';
 
 use Elkuku\Console\Helper\ConsoleProgressBar;
 
