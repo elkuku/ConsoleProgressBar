@@ -236,10 +236,10 @@ class ConsoleProgressBar
 		$this->options = $options = $intOpts;
 
 		// Placeholder
-		$cur    = '%2$\'' . $options['fraction_pad']{0} . strlen((int) $targetNum) . '.'
+		$cur    = '%2$\'' . $options['fraction_pad'][0]. strlen((int) $targetNum) . '.'
 			. $options['fraction_precision'] . 'f';
 		$max    = $cur;
-		$max{1} = 3;
+        $max[1] = 3;
 
 		// Pre php-4.3.7 %3.2f meant 3 characters before . and two after
 		// php-4.3.7 and later it means 3 characters for the whole number
@@ -253,7 +253,7 @@ class ConsoleProgressBar
 			$padding = 3;
 		}
 
-		$perc = '%4$\'' . $options['percent_pad']{0} . $padding . '.'
+		$perc = '%4$\'' . $options['percent_pad'][0]. $padding . '.'
 			. $options['percent_precision'] . 'f';
 
 		$transitions = array(
@@ -282,7 +282,7 @@ class ConsoleProgressBar
 			$bLen = $width;
 		}
 
-		$lBar = str_pad($bar, $bLen, $bar{0}, STR_PAD_LEFT);
+		$lBar = str_pad($bar, $bLen, $bar[0], STR_PAD_LEFT);
 		$rBar = str_pad($preFill, $bLen, substr($preFill, -1, 1));
 
 		$this->bar   = substr($lBar, -$bLen) . substr($rBar, 0, $bLen);
@@ -496,7 +496,7 @@ class ConsoleProgressBar
 		$first = $this->rateDataPoints[0];
 		$last  = end($this->rateDataPoints);
 
-		if (($last['value'] - $first['value']) * ($last['time'] - $first['time']) == 0) 
+		if (($last['value'] - $first['value']) * ($last['time'] - $first['time']) == 0)
 		{
 			return 0.0;
 		}
