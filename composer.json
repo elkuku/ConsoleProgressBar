@@ -1,11 +1,15 @@
 {
-    "name": "elkuku/console-progressbar",
+    "name": "fero8/consoleprogressbar",
     "description": "This class provides you with an easy-to-use interface to progress bars.",
     "keywords": [ "console" ],
     "type": "library",
     "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Miroslav Solanka",
+            "email": "hello@fero8.com"
+        },
         {
             "name": "Stefan Walk",
             "email": "et@php.net"
